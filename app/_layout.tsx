@@ -1,75 +1,50 @@
-import { Link, router, Slot, Stack } from 'expo-router'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Link, Slot, useNavigation } from 'expo-router'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { Drawer } from 'expo-router/drawer'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { Ionicons } from '@expo/vector-icons'
+import { DrawerContentComponentProps, DrawerNavigationProp } from '@react-navigation/drawer'
 
-import { Ionicons } from '@expo/vector-icons';
-import Footer from '@/layouts/footer';
-import DrawerProvider from '@/context/context-hooks/drawer';
-import useDrawer from '@/context/context-hooks/useDrawer';
 
 const RootLayout = () => {
-
   return (
-    <DrawerProvider>
-      <View className='relative w-full flex-1'>
-        <Stack screenOptions={{
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: 'rgb(209 213 219)',
-          }
-        }}>
-          <Stack.Screen 
-            name='index' 
-            options={{
-              headerLeft: () => <IndexHeaderLeftIcon/>,
-              title: 'Home',
-            }}
-          />
-          <Stack.Screen 
-            name='product/index'
-            options={{
-              title: 'Product'
-            }}
-          />
-          <Stack.Screen 
-            name='product/[productId]'
-            options={{
-              title: 'Single Product'
-            }}
-          />
-          <Stack.Screen 
-            name='category'
-            options={{
-              title: 'Category'
-            }}
-          />
-          <Stack.Screen 
-            name='profile'
-            options={{
-              title: 'Profile'
-            }}
-          />
-          <Stack.Screen 
-            name='products'
-            options={{
-              title: 'Products'
-            }}
-          />
-        </Stack>
-          {/* <Slot /> */}
-          {/* <Footer/> */}
-      </View>
-    </DrawerProvider>
-    
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Drawer drawerContent={DrawerContent} screenOptions= {{headerShown:false, drawerStyle:{
+        backgroundColor: 'green',
+      }}}>
+        <Drawer.Screen 
+          name='index'
+          options={{
+            headerShown: true,
+            title: 'Home',
+            headerLeft: () => <DrawerHeaderIcon/>,
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Drawer.Screen name='stack'/>
+      </Drawer>
+    </GestureHandlerRootView>
   )
 }
 
 export default RootLayout
 
-const IndexHeaderLeftIcon = () => {
-  const {drawer} = useDrawer()
+const DrawerHeaderIcon = () => {
+
+  const navigation = useNavigation<DrawerNavigationProp<{}>>()
+  
   return (
-    <TouchableOpacity onPress={() => drawer?.current?.openDrawer()}>
+    <TouchableOpacity onPress={() => {navigation.openDrawer()}} className='ml-4'>
         <Ionicons name="menu" size={24} color="black" />
     </TouchableOpacity>
+  )
+}
+
+const DrawerContent = (p: DrawerContentComponentProps) => {
+  console.log(p)
+  return( 
+    <View className='w-full flex-1' >
+      <Link className='mt-12 text-gray-50' href={'/stack/category'}>Category</Link>
+    </View>
   )
 }
