@@ -20,17 +20,17 @@ const Index = () => {
           centerText='Home'
         />  */}
         <Text className='text-5xl font-bold text-green-700'>Index</Text>
-        <Link href={'/stack/category'}>Category</Link>
-        <Link href={'/stack/products'}>Products</Link>
+        <Link href={'/category'}>Category</Link>
+        <Link href={'/products'}>Products</Link>
         <Link href={{
-          pathname: '/stack/product',
+          pathname: '/product',
           params: {
             name: 'Nimal',
             age: 25
           }
         }}>Product</Link>
         <Link href={{
-          pathname: '/stack/product/[productId]',
+          pathname: '/product/[productId]',
           params: { 
             productId: 'dew', 
             name: 'CDRanga',

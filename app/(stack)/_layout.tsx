@@ -1,10 +1,11 @@
-import { Link, router, Slot, Stack } from 'expo-router'
+import { Link, router, Slot, Stack, useNavigation } from 'expo-router'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons';
 import Footer from '@/layouts/footer';
 import DrawerProvider from '@/context/context-hooks/drawer';
 import useDrawer from '@/context/context-hooks/useDrawer';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const StackLayout = () => {
 
@@ -18,11 +19,11 @@ const StackLayout = () => {
           }
         }}>
           <Stack.Screen 
-            name='index' 
+            name='(tabs)' 
             options={{
-              // headerLeft: () => <IndexHeaderLeftIcon/>,
+              headerLeft: () => <IndexHeaderLeftIcon/>,
               title: 'Home',
-              // headerShown: false
+              headerShown: false
             }}
           />
           <Stack.Screen 
@@ -67,9 +68,15 @@ const StackLayout = () => {
 export default StackLayout
 
 const IndexHeaderLeftIcon = () => {
-  const {drawer} = useDrawer()
+  
+  // const {drawer} = useDrawer()
+
+  const navigation = useNavigation<DrawerNavigationProp<{}>>()
+  // console.log(navigation)
+
   return (
-    <TouchableOpacity onPress={() => drawer?.current?.openDrawer()}>
+    // <TouchableOpacity onPress={() => drawer?.current?.openDrawer()}>
+    <TouchableOpacity onPress={() => {navigation.openDrawer()}}>
         <Ionicons name="menu" size={24} color="black" />
     </TouchableOpacity>
   )
